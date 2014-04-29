@@ -1,5 +1,11 @@
 # See http://docs.opscode.com/config_rb_knife.html for more information on knife configuration options
 
+organization_base_name = "aziz1967"
+require 'grit'
+repository = Grit::Repo.new(Dir.pwd)
+current_branch = Grit::Head.current(repository).name
+organization = organization_base_name
+organization << "-#{current_branch}" unless current_branch == 'master'
 current_dir = File.dirname(__FILE__)
 log_level                :info
 log_location             STDOUT
@@ -7,7 +13,7 @@ node_name                "aziz1967"
 client_key               "#{current_dir}/aziz1967.pem"
 validation_client_name   "aziz1967-validator"
 validation_key           "#{current_dir}/aziz1967-validator.pem"
-chef_server_url          "https://api.opscode.com/organizations/aziz1967"
+chef_server_url          "https://api.opscode.com/organizations/#{organization}"
 cache_type               'BasicFile'
 cache_options( :path => "#{ENV['HOME']}/.chef/checksums" )
 cookbook_path            ["#{current_dir}/../cookbooks"]
